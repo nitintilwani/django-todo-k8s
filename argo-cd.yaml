@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: django-argocd
+  namespace: argocd
+spec:
+  project: django-todo
+  source:
+    repoURL: https://github.com/nitintilwani/django-todo-k8s.git
+    targetRevision: HEAD
+    # path: guestbook
+    path: django-todoapp-master/k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
