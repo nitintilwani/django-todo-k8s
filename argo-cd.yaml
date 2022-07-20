@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: django-argocd
+  name: django-todo-argocd
   namespace: argocd
 spec:
-  project: django-todo
+  project: default
   source:
     repoURL: https://github.com/nitintilwani/django-todo-k8s.git
     targetRevision: HEAD
