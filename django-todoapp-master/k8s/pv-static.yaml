@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-staticfiles
+  # labels: 
+  #   volume-type: pv
+    
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/auriga/pv-static"
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: staticfiles-pvc
+    namespace: default

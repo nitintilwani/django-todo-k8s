@@ -1,0 +1,22 @@
+# testing deployment , this is of no use , it is just for tewsting
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      tier: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        tier: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports: 
+            - containerPort: 80

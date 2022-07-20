@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - image: "nitintilwani/frontend-django-raj-todo"
+          name: frontend
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: static-volume
+              mountPath: /app/todoapp/staticfiles
+      volumes:
+        - name: static-volume
+          persistentVolumeClaim:
+            claimName: staticfiles-pvc

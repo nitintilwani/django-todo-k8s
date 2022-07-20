@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-file
+  labels:
+    app: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  replicas: 1
+  # serviceName: backend-service
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend-container
+          # image: "nitintilwani/backend-django-raj-todo:v2"
+          image: "harshagr63/task1_main:k8sv2"
+          ports:
+            - containerPort: 8000
+          env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-configmap
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-configmap
+                key: DB_PORT
+          - name: DB_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-configmap
+                key: POSTGRES_PASSWORD
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-configmap
+                key: POSTGRES_USER
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-configmap
+                key: POSTGRES_DB
+          volumeMounts:
+            - name: backend-volume
+              mountPath: /app/log/
+            - name: static-volume
+              mountPath: /app/todoapp/staticfiles
+      volumes:
+        - name: backend-volume
+          persistentVolumeClaim:
+            claimName: backend-pvc
+        - name: static-volume
+          persistentVolumeClaim:
+            claimName: staticfiles-pvc
